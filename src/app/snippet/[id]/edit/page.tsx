@@ -1,6 +1,5 @@
 import EditSnippetForm from '@/components/EditSnippetForm'
 import { prisma } from '@/lib/prisma';
-import { promises } from 'dns'
 import React from 'react'
 
 const EditPageSnippets = async({params}:{params:Promise<{id:string}>}) => {

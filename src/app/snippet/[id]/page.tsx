@@ -1,4 +1,4 @@
-import React, { act } from "react";
+import React from "react";
 import { prisma } from "@/lib/prisma";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";

@@ -52,7 +52,7 @@ export default async function Home() {
                 Your snippet adventure begins here!
               </p>
               <p className="text-gray-500 mt-2">
-                Click "Create Vibrant Snippet" to start
+                Click &quot;Create Vibrant Snippet&quot; to start
               </p>
             </div>
           ) : (
