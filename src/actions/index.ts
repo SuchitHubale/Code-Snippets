@@ -2,7 +2,6 @@
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 
-
 const SaveSnippet = async (id: number, code: string) => {
     await prisma.snippet.update({
         where: {
@@ -11,22 +10,22 @@ const SaveSnippet = async (id: number, code: string) => {
         data: {
             code,
         }
-    })
+    });
 
     redirect(`/snippet/${id}`);
-}
+};
 
-export default SaveSnippet
+export default SaveSnippet;
 
 export const deleteSnippet = async (id: number) => {
     await prisma.snippet.delete({
         where: {
             id
         }
-    })
+    });
 
     redirect('/');
-}
+};
 
 export async function createSnippet(prevState: { message: string }, formData: FormData) {
     try {
@@ -36,23 +35,28 @@ export async function createSnippet(prevState: { message: string }, formData: Fo
         if (typeof title !== "string" || title.length < 4) {
             return {
                 message: "Title is required and should be at least 4 characters"
-            }
+            };
         }
 
         if (typeof code !== "string" || code.length < 8) {
             return {
                 message: "Code is required and should be at least 8 characters"
-            }
+            };
         }
 
         await prisma.snippet.create({
             data: { title, code }
         });
 
-    } catch (error: any) {
-        return {
-            message: error.message || "Failed to create snippet"
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            return {
+                message: error.message || "Failed to create snippet"
+            };
         }
+        return {
+            message: "An unknown error occurred"
+        };
     }
     redirect('/');
 }
