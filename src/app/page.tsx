@@ -1,11 +1,19 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { db } from "@/lib/firebase";
-import { collection, getDocs, QueryDocumentSnapshot, DocumentData } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
+
+type Snippet = {
+  id: string;
+  title: string;
+  code: string;
+};
 
 export default async function Home() {
   const querySnapshot = await getDocs(collection(db, "snippets"));
-  const snippets = querySnapshot.docs.map((doc: QueryDocumentSnapshot<DocumentData>) => ({ id: doc.id, ...doc.data() }));
+  const snippets: Snippet[] = querySnapshot.docs.map(
+    (doc) => ({ id: doc.id, ...(doc.data() as Omit<Snippet, "id">) })
+  );
   
   // Color palette for dynamic backgrounds
   const getRandomColor = () => {
@@ -59,7 +67,7 @@ export default async function Home() {
             </div>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {snippets.map((snippet: { id: string; title: string }) => (
+              {snippets.map((snippet) => (
                 <div 
                   key={snippet.id} 
                   className="bg-white border-2 border-gray-100 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2"
