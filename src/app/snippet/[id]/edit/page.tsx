@@ -1,16 +1,12 @@
 import EditSnippetForm from '@/components/EditSnippetForm'
-import { prisma } from '@/lib/prisma';
+import { db } from '@/lib/firebase';
 import React from 'react'
+import { doc, getDoc } from 'firebase/firestore';
 
 const EditPageSnippets = async({params}:{params:Promise<{id:string}>}) => {
-
-    const id = parseInt((await params).id);
-
-    const snippet = await prisma.snippet.findUnique({
-        where : {
-            id
-        }
-    })
+    const id = (await params).id;
+    const snippetDoc = await getDoc(doc(db, "snippets", id));
+    const snippet = snippetDoc.exists() ? { id: snippetDoc.id, ...snippetDoc.data() } : null;
 
     if(!snippet){
         return <h1>Snippet not found</h1>
