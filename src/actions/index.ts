@@ -6,8 +6,7 @@ import {
   doc,
   addDoc,
   updateDoc,
-  deleteDoc,
-  getDoc
+  deleteDoc
 } from "firebase/firestore";
 
 const SaveSnippet = async (id: string, code: string) => {

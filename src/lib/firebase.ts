@@ -17,7 +17,7 @@ const app = !getApps().length ? initializeApp(firebaseConfig) : getApps()[0];
 const db = getFirestore(app);
 
 // Only initialize analytics in the browser
-let analytics: any = null;
+let analytics = null;
 if (typeof window !== "undefined") {
   // Import here to avoid SSR issues
   import("firebase/analytics").then(({ getAnalytics }) => {
